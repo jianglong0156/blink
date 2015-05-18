@@ -45,7 +45,7 @@ WebInspector.IsolatedFileSystemManager = function()
     InspectorFrontendHost.events.addEventListener(InspectorFrontendHostAPI.Events.FileSystemsLoaded, this._onFileSystemsLoaded, this);
     InspectorFrontendHost.events.addEventListener(InspectorFrontendHostAPI.Events.FileSystemRemoved, this._onFileSystemRemoved, this);
     InspectorFrontendHost.events.addEventListener(InspectorFrontendHostAPI.Events.FileSystemAdded, this._onFileSystemAdded, this);
-}
+}   
 
 /** @typedef {!{fileSystemName: string, rootURL: string, fileSystemPath: string}} */
 WebInspector.IsolatedFileSystemManager.FileSystem;
@@ -118,8 +118,38 @@ WebInspector.IsolatedFileSystemManager.prototype = {
      */
     _innerAddFileSystem: function(fileSystem)
     {
+        // 2015-05-06 add by leo
+        console.log("_innerAddFileSystem");
+        // 2015-05-06 add by leo
         var fileSystemPath = fileSystem.fileSystemPath;
         this._fileSystemMapping.addFileSystem(fileSystemPath);
+// 2015-05-06 add by leo
+console.log("fileSystemPath:" + fileSystemPath);
+        function filterProject(project)
+        {
+            if (project.uiSourceCodes() && project.uiSourceCodes().length > 0)
+            {
+                return true;    
+            }
+            return false;
+        };
+
+        function uiSourceCodeAdded(event)
+        {
+            var uiSourceCode = /** @type {!WebInspector.UISourceCode} */ (event.data);
+            console.log("uiSourceCode run judge:" + uiSourceCode.displayName());
+
+            if (uiSourceCode.originURL() && uiSourceCode.originURL().indexOf("http://") != -1 && uiSourceCode.displayName().indexOf("index.html") != -1)
+            {
+                console.log("uiSourceCode:------------------" + uiSourceCode.displayName());
+                this._fileSystemMapping.addMappingForResource(uiSourceCode.originURL(), fileSystemPath, uiSourceCode.displayName());
+                // need to reload make the mapping avalid
+                WebInspector.reload();
+            }            
+        };
+    WebInspector.workspace.addEventListener(WebInspector.Workspace.Events.UISourceCodeAdded, uiSourceCodeAdded, this);
+// 2015-05-06 add by leo
+
         var isolatedFileSystem = new WebInspector.IsolatedFileSystem(this, fileSystemPath, fileSystem.fileSystemName, fileSystem.rootURL);
         this._fileSystems[fileSystemPath] = isolatedFileSystem;
         this.dispatchEventToListeners(WebInspector.IsolatedFileSystemManager.Events.FileSystemAdded, isolatedFileSystem);
