@@ -438,6 +438,10 @@ void InspectorResourceAgent::willSendRequest(unsigned long identifier, DocumentL
 
     request.setReportRawHeaders(true);
 
+    // 20150621 add by leo default set cache true
+    setCacheDisabled(nullptr, true);
+    // 20150621 add by leo 
+    
     if (m_state->getBoolean(ResourceAgentState::cacheDisabled)) {
         request.setCachePolicy(ReloadBypassingCache);
         request.setShouldResetAppCache(true);

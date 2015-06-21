@@ -40,6 +40,11 @@ WebInspector.NetworkManager = function(target)
     this._target = target;
     this._networkAgent = target.networkAgent();
     target.registerNetworkDispatcher(this._dispatcher);
+
+    // 20150621 add by leo default set cache true
+    WebInspector.settings.cacheDisabled.set(true);
+    // 20150621 add by leo
+
     if (WebInspector.settings.cacheDisabled.get())
         this._networkAgent.setCacheDisabled(true);
 
