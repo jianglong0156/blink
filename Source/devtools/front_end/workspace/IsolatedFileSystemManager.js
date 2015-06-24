@@ -139,7 +139,7 @@ console.log("fileSystemPath:" + fileSystemPath);
             var uiSourceCode = /** @type {!WebInspector.UISourceCode} */ (event.data);
             console.log("uiSourceCode run judge:" + uiSourceCode.displayName());
 
-            if (uiSourceCode.originURL() && uiSourceCode.originURL().indexOf("http://") != -1 && uiSourceCode.displayName().indexOf("index.html") != -1)
+            if (uiSourceCode.originURL() && uiSourceCode.originURL().indexOf("http://") != -1 && (uiSourceCode.displayName().indexOf("index.html") != -1 || uiSourceCode.displayName().indexOf("(index)") != -1))
             {
                 console.log("uiSourceCode:------------------" + uiSourceCode.displayName());
                 this._fileSystemMapping.addMappingForResource(uiSourceCode.originURL(), fileSystemPath, uiSourceCode.displayName());
