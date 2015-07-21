@@ -318,6 +318,10 @@ DevToolsAPIImpl.prototype = {
     showConsole: function()
     {
         this._dispatchOnInspectorFrontendAPI("showConsole", []);
+    },
+    showSources: function()
+    {
+        this._dispatchOnInspectorFrontendAPI("showSources", []);
     }
 }
 

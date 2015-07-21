@@ -66,7 +66,8 @@ InspectorFrontendHostAPI.Events = {
     SetInspectedTabId: "setInspectedTabId",
     SetToolbarColors: "setToolbarColors",
     SetUseSoftMenu: "setUseSoftMenu",
-    ShowConsole: "showConsole"
+    ShowConsole: "showConsole",
+    ShowSources: "showSources"
 }
 
 InspectorFrontendHostAPI.EventDescriptors = [
@@ -93,7 +94,8 @@ InspectorFrontendHostAPI.EventDescriptors = [
     [InspectorFrontendHostAPI.Events.SetInspectedTabId, ["tabId"]],
     [InspectorFrontendHostAPI.Events.SetToolbarColors, ["backgroundColor", "color"]],
     [InspectorFrontendHostAPI.Events.SetUseSoftMenu, ["useSoftMenu"]],
-    [InspectorFrontendHostAPI.Events.ShowConsole, []]
+    [InspectorFrontendHostAPI.Events.ShowConsole, []],
+    [InspectorFrontendHostAPI.Events.ShowSources, []]
 ];
 
 InspectorFrontendHostAPI.prototype = {
