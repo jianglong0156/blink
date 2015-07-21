@@ -84,6 +84,7 @@ WebInspector.InspectorView = function()
     this._lastActivePanelSetting = WebInspector.settings.createSetting("lastActivePanel", "elements");
 
     InspectorFrontendHost.events.addEventListener(InspectorFrontendHostAPI.Events.ShowConsole, showConsole.bind(this));
+    InspectorFrontendHost.events.addEventListener(InspectorFrontendHostAPI.Events.ShowSources, showSources.bind(this));
     this._loadPanelDesciptors();
 
     /**
@@ -92,6 +93,14 @@ WebInspector.InspectorView = function()
     function showConsole()
     {
         this.showPanel("console");
+    }
+
+    /**
+     * @this {WebInspector.InspectorView}
+     */
+    function showSources()
+    {
+        this.showPanel("sources");
     }
 
     WebInspector.targetManager.addEventListener(WebInspector.TargetManager.Events.SuspendStateChanged, this._onSuspendStateChanged.bind(this));
